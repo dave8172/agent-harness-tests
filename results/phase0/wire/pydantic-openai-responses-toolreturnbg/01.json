@@ -1,0 +1,88 @@
+{
+  "path": "/v1/responses",
+  "headers": {
+    "Host": "127.0.0.1:8766",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "accept": "application/json",
+    "content-type": "application/json",
+    "user-agent": "pydantic-ai/2.68.0",
+    "x-stainless-lang": "python",
+    "x-stainless-package-version": "3.50.0",
+    "x-stainless-os": "Linux",
+    "x-stainless-arch": "x64",
+    "x-stainless-runtime": "CPython",
+    "x-stainless-runtime-version": "3.12.3",
+    "x-stainless-async": "async:asyncio",
+    "x-stainless-retry-count": "0",
+    "x-stainless-read-timeout": "600",
+    "Content-Length": "1073"
+  },
+  "body": {
+    "model": "gpt-5.4-nano",
+    "stream": false,
+    "include": [
+      "reasoning.encrypted_content"
+    ],
+    "input": [
+      {
+        "role": "user",
+        "content": "Summarise email 1 and fetch the weekly report. [V:user1]"
+      }
+    ],
+    "instructions": "You are Sam's email assistant. Reply in English. [V:operator]",
+    "reasoning": {
+      "context": "all_turns"
+    },
+    "tool_choice": "auto",
+    "tools": [
+      {
+        "name": "read_email",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        },
+        "type": "function",
+        "description": "Read one email by its id. [V:tooldef]",
+        "strict": true
+      },
+      {
+        "name": "fetch_report",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        },
+        "type": "function",
+        "description": "Start building the weekly report. It runs in the background and the result arrives later. [V:tooldef-bg]",
+        "strict": false
+      },
+      {
+        "name": "check_job",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        },
+        "type": "function",
+        "description": "Check a background job by its id and return its result if finished. [V:tooldef-check]",
+        "strict": true
+      }
+    ]
+  }
+}

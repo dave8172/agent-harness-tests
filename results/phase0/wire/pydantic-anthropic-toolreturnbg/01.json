@@ -1,0 +1,91 @@
+{
+  "path": "/v1/messages",
+  "headers": {
+    "Host": "127.0.0.1:8766",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "x-stainless-timeout": "NOT_GIVEN",
+    "x-stainless-retry-count": "0",
+    "x-stainless-read-timeout": "600",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+    "User-Agent": "pydantic-ai/2.68.0",
+    "X-Stainless-Lang": "python",
+    "X-Stainless-Package-Version": "2.8.0",
+    "X-Stainless-OS": "Linux",
+    "X-Stainless-Arch": "x64",
+    "X-Stainless-Runtime": "CPython",
+    "X-Stainless-Runtime-Version": "3.12.3",
+    "X-Stainless-Async": "async:asyncio",
+    "anthropic-version": "2026-10-21",
+    "Content-Length": "983"
+  },
+  "body": {
+    "max_tokens": 128000,
+    "messages": [
+      {
+        "role": "user",
+        "content": [
+          {
+            "text": "Summarise email 1 and fetch the weekly report. [V:user1]",
+            "type": "text"
+          }
+        ]
+      }
+    ],
+    "model": "claude-haiku-5-5",
+    "stream": true,
+    "system": [
+      {
+        "type": "text",
+        "text": "You are Sam's email assistant. Reply in English. [V:operator]"
+      }
+    ],
+    "tool_choice": {
+      "type": "auto"
+    },
+    "tools": [
+      {
+        "name": "read_email",
+        "description": "Read one email by its id. [V:tooldef]",
+        "input_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        }
+      },
+      {
+        "name": "fetch_report",
+        "description": "Start building the weekly report. It runs in the background and the result arrives later. [V:tooldef-bg]",
+        "input_schema": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      {
+        "name": "check_job",
+        "description": "Check a background job by its id and return its result if finished. [V:tooldef-check]",
+        "input_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        }
+      }
+    ]
+  }
+}
