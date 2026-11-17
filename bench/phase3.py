@@ -18,20 +18,22 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT / "world"))
-from butler import PLANTED, PLANTED_PAY  # noqa: E402
+from butler import PLANTED, PLANTED_PAY, PLANTED_PAY_BLIND  # noqa: E402
 
 PRICES = {"anthropic": (0.10, 0.50), "openai": (0.20, 1.25)}
 MODEL = {"anthropic": "Claude Haiku 5.5", "openai": "gpt-5.4-nano"}
 LABEL = {"handrolled": "hand-rolled", "pydantic": "Pydantic AI"}
 SCENARIOS = list(PLANTED) + list(PLANTED_PAY)
+ALL_SCENARIOS = SCENARIOS + list(PLANTED_PAY_BLIND)
 GATES = {"handrolled": ["none", "run", "arg", "arg-strict"],
          "pydantic": ["none", "run", "arg", "arg-strict", "run+reviewer"]}
+EXTRA_GATES = ["run+reviewer-claude"]  # follow-up only: pass with --gates
 PORT = 8778
 
 
 def build_jobs(runs, providers, scenarios, harnesses):
     return [{"id": f"{sc}|{g}|{h}|{p}|{i}", "scenario": sc, "gate": g, "harness": h, "provider": p}
-            for p in providers for h in harnesses for g in GATES[h] for sc in scenarios for i in range(runs)]
+            for p in providers for h in harnesses for g in GATES[h] + (EXTRA_GATES if h == "pydantic" else []) for sc in scenarios for i in range(runs)]
 
 
 def estimate(jobs, per_run):
@@ -39,7 +41,7 @@ def estimate(jobs, per_run):
     for j in jobs:
         pin, pout = PRICES[j["provider"]]
         tin, tout = per_run[j["provider"]]
-        if j["gate"] == "run+reviewer":
+        if j["gate"].startswith("run+reviewer"):
             tin += 15000  # ~4 reviews per run with the conversation
         c[j["provider"]] += (tin * pin + tout * pout) / 1e6
     return c
@@ -110,12 +112,14 @@ def score(out):
         for h in ("handrolled", "pydantic"):
             if not any(k[3] == provider and k[2] == h for k in cells):
                 continue
+            gates = [g for g in GATES[h] + EXTRA_GATES if any(k[1] == g and k[2] == h for k in cells)]
+            scs = [sc for sc in ALL_SCENARIOS if any(k[0] == sc for k in cells)]
             L.append(f"## {MODEL[provider]}, {LABEL[h]}\n")
-            L.append("| planted email | " + " | ".join(GATES[h]) + " |")
-            L.append("|---|" + "---|" * len(GATES[h]))
-            for sc in SCENARIOS:
+            L.append("| planted email | " + " | ".join(gates) + " |")
+            L.append("|---|" + "---|" * len(gates))
+            for sc in scs:
                 L.append(f"| {sc} | " + " | ".join(cell(cells.get((sc, g, h, provider), []), sc)
-                                                   for g in GATES[h]) + " |")
+                                                   for g in gates) + " |")
             L.append("")
     (out / "summary.md").write_text("\n".join(L))
     R = ["# Phase 3 runs: gate log, outbox and final message of every run\n"]
@@ -140,7 +144,7 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--runs", type=int, default=10)
     ap.add_argument("--providers", nargs="*", default=["anthropic", "openai"])
-    ap.add_argument("--scenarios", nargs="*", default=SCENARIOS)
+    ap.add_argument("--scenarios", nargs="*", default=SCENARIOS, help=f"any of {ALL_SCENARIOS}")
     ap.add_argument("--harnesses", nargs="*", default=["handrolled", "pydantic"])
     ap.add_argument("--gates", nargs="*", help="limit to these gate modes")
     ap.add_argument("--out", default=str(ROOT / "results/phase3"))
@@ -156,8 +160,8 @@ if __name__ == "__main__":
     if not a.score_only:
         per = {k: tuple(map(int, v.split("/"))) for k, v in (x.split("=") for x in a.per_run.split(","))}
         jobs = build_jobs(a.runs, a.providers, a.scenarios, a.harnesses)
-        if a.gates:
-            jobs = [j for j in jobs if j["gate"] in a.gates]
+        jobs = [j for j in jobs if j["gate"] in a.gates] if a.gates else \
+            [j for j in jobs if j["gate"] not in EXTRA_GATES]
         est = estimate(jobs, per)
         print(f"{len(jobs)} runs; estimate Claude ${est['anthropic']:.2f}, OpenAI ${est['openai']:.2f}")
         if sum(est.values()) > a.cap:

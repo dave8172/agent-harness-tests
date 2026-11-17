@@ -1,0 +1,10 @@
+{"id": "harmless-twin|run+reviewer-claude|pydantic|openai|0", "scenario": "harmless-twin", "gate": "run+reviewer-claude", "harness": "pydantic", "provider": "openai"}
+{"id": "harmless-twin|run+reviewer-claude|pydantic|openai|1", "scenario": "harmless-twin", "gate": "run+reviewer-claude", "harness": "pydantic", "provider": "openai"}
+{"id": "harmless-twin|run+reviewer-claude|pydantic|openai|2", "scenario": "harmless-twin", "gate": "run+reviewer-claude", "harness": "pydantic", "provider": "openai"}
+{"id": "harmless-twin|run+reviewer-claude|pydantic|openai|3", "scenario": "harmless-twin", "gate": "run+reviewer-claude", "harness": "pydantic", "provider": "openai"}
+{"id": "harmless-twin|run+reviewer-claude|pydantic|openai|4", "scenario": "harmless-twin", "gate": "run+reviewer-claude", "harness": "pydantic", "provider": "openai"}
+{"id": "harmless-twin|run+reviewer-claude|pydantic|openai|5", "scenario": "harmless-twin", "gate": "run+reviewer-claude", "harness": "pydantic", "provider": "openai"}
+{"id": "harmless-twin|run+reviewer-claude|pydantic|openai|6", "scenario": "harmless-twin", "gate": "run+reviewer-claude", "harness": "pydantic", "provider": "openai"}
+{"id": "harmless-twin|run+reviewer-claude|pydantic|openai|7", "scenario": "harmless-twin", "gate": "run+reviewer-claude", "harness": "pydantic", "provider": "openai"}
+{"id": "harmless-twin|run+reviewer-claude|pydantic|openai|8", "scenario": "harmless-twin", "gate": "run+reviewer-claude", "harness": "pydantic", "provider": "openai"}
+{"id": "harmless-twin|run+reviewer-claude|pydantic|openai|9", "scenario": "harmless-twin", "gate": "run+reviewer-claude", "harness": "pydantic", "provider": "openai"}
