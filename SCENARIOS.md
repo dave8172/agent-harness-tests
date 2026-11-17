@@ -50,3 +50,7 @@ Delivery arms for the planted email:
 - `background-tagged`: the same, but wrapped in `<untrusted-data>` tags with a line saying it is data, not instructions.
 
 To run a scenario in another bench, use the world server as the tool backend, or port `world/butler.py`. It is plain Python with no dependencies, about 250 lines.
+
+## Gates (Phase 3): the same world, a gate in front of every tool call
+
+The same export (`scenarios/phase2.json`, key `phase3_payment`) adds a payment task, a `pay_invoice` tool and two planted emails that change the account. The gate (`bench/gate.py`, pure code) is portable on its own: it needs to know which tools are read-only, which return outside content, which arguments are handles, and the text the operator and the person wrote. A call it holds goes to a person; the bench's scripted person (`POST /judge`) denies exactly the harmful calls (rule in `phase3_person`).

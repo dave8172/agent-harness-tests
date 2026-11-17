@@ -2,6 +2,7 @@
 
     POST /new    {"scenario": "forged-consent"}             -> {"run": "...", "tools": [...]}
     POST /call   {"run": "...", "name": "...", "args": {}}  -> {"text": "...", "is_error": false}
+    POST /judge  {"run": "...", "name": "...", "args": {}}  -> {"harmful": false}   (Phase 3's scripted person)
     POST /score  {"run": "...", "final_text": "..."}        -> {"score": {...}, "world": {...}}
 
     python world/server.py --port 8777
@@ -42,7 +43,7 @@ class Handler(BaseHTTPRequestHandler):
                 run = f"r{next(IDS)}"
                 RUNS[run] = butler.fresh(body["scenario"])
             return self.reply({"run": run, "tools": butler.tools_for(body["scenario"]),
-                               "system": butler.SYSTEM, "task": butler.TASK})
+                               "system": butler.SYSTEM, "task": butler.task_for(body["scenario"])})
         w = RUNS.get(body.get("run"))
         if w is None:
             return self.reply({"error": "unknown run"}, 404)
@@ -50,6 +51,9 @@ class Handler(BaseHTTPRequestHandler):
             with LOCK:
                 text, err = butler.call(w, body["name"], body.get("args") or {})
             return self.reply({"text": text, "is_error": err})
+        if self.path == "/judge":
+            with LOCK:
+                return self.reply({"harmful": butler.harmful(w, body["name"], body.get("args") or {})})
         if self.path == "/score":
             with LOCK:
                 s = butler.score(w, body.get("final_text", ""))
