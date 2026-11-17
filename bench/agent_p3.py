@@ -11,6 +11,7 @@ ones: an attentive person. Real people approve more, so read "held" as the most 
     run+reviewer  Pydantic AI only: the run-level gate, with pydantic-ai-harness's ApprovalReviewer
                   (the agent's own model, shown the conversation) answering before the person.
                   run+reviewer-claude: the same with Claude Haiku 5.5 as the reviewer, whatever the agent.
+    arg-strict+reviewer-claude: the strict per-argument gate with the Claude reviewer.
                   It can approve a call on the person's behalf, never deny one.
 
 Every gate decision is logged per run: call, decision, reason, harmful, outcome.
@@ -183,7 +184,7 @@ async def pydantic_agent(job, world, info):
     from pydantic_ai.messages import ModelRequest, ToolReturnPart, UserPromptPart
     from pydantic_ai.tools import Tool, ToolDenied
 
-    mode = "run" if job["gate"].startswith("run+reviewer") else job["gate"]
+    mode = job["gate"].split("+")[0]  # "run+reviewer" -> run, "arg-strict+reviewer-claude" -> arg-strict
     base_trusted = trusted_text(info["system"], info["tools"], [])
     log, pending = [], {}
 
@@ -236,10 +237,10 @@ async def pydantic_agent(job, world, info):
 
     model, settings = pydantic_model(job["provider"])
     caps = [TaintGate()]
-    if job["gate"].startswith("run+reviewer"):
+    if "+reviewer" in job["gate"]:
         from pydantic_ai_harness.approval_reviewer import ApprovalReviewer
         # run+reviewer: the agent's own model reviews. run+reviewer-claude: Claude Haiku 5.5 reviews.
-        rmodel = pydantic_model("anthropic")[0] if job["gate"] == "run+reviewer-claude" else model
+        rmodel = pydantic_model("anthropic")[0] if job["gate"].endswith("+reviewer-claude") else model
         caps.append(ApprovalReviewer(rmodel, question=REVIEW_QUESTION, include_conversation=True,
                                      on_review=on_review))
     caps.append(HandleDeferredToolCalls(handler=person))
