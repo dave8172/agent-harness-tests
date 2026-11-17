@@ -2,7 +2,7 @@
 
 **What:** a bench for agent harnesses. Does a harness put each voice (operator, user, tool, background result, mid-conversation instruction) where the model expects it, and how does the model behave when it doesn't? Harnesses: hand-rolled (the correct-voice control), Pydantic AI, pi (`pi-agent-core`). Models: Claude Haiku 5.5, gpt-5.4-nano. Next: a local open model via Ollama.
 
-**State (2026-11-17):** Phase 3 (gates) run, not yet written up. Phases 0–2 built and run; written up as the series [Testing AI agent security](https://quirkyagents.com/wizard/blog/series/agent-security-tested/) (parts 3, 4, 7). `FINDINGS.md` has every finding (D = Pydantic AI, U = API and model facts, P = pi, F = Phase 2).
+**State (2026-11-17):** Phase 3 (gates) run and written up as part 8 of the series (FINDINGS G1–G10; conclusion: the run-level gate as the default). Phases 0–2 built and run; written up as the series [Testing AI agent security](https://quirkyagents.com/wizard/blog/series/agent-security-tested/) (parts 3, 4, 7). `FINDINGS.md` has every finding (D = Pydantic AI, U = API and model facts, P = pi, F = Phase 2).
 
 **Scope:** realistic scenarios (forwarded or quoted email, indirect trust) in a portable format (`SCENARIOS.md`). Findings about a framework's code are stated as plain facts, with the good results shown.
 

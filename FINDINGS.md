@@ -1,6 +1,6 @@
 # Findings
 
-Every finding from Phases 0–3, with its numbers and where the data is. The write-up, in plain language, is the series [Testing AI agent security](https://quirkyagents.com/wizard/blog/series/agent-security-tested/) (parts 3, 4 and 7).
+Every finding from Phases 0–3, with its numbers and where the data is. The write-up, in plain language, is the series [Testing AI agent security](https://quirkyagents.com/wizard/blog/series/agent-security-tested/) (parts 3, 4, 7 and 8).
 
 Numbers: Claude Haiku 5.5 (effort low) and gpt-5.4-nano (Responses API, reasoning none), with the same settings in every harness. Versions: Pydantic AI 2.68.0 (Phase 3: 2.69.0 with pydantic-ai-harness 0.69.0), pi 0.73.1. Phase 1 used 20 runs per arm, Phases 2 and 3 10. With these sample sizes, read the results as directions, not rates.
 
