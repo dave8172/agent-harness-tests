@@ -28,7 +28,7 @@ ALL_SCENARIOS = SCENARIOS + list(PLANTED_PAY_BLIND) + list(PLANTED_HANDLE)
 GATES = {"handrolled": ["none", "run", "arg", "arg-strict"],
          "pydantic": ["none", "run", "arg", "arg-strict", "run+reviewer"]}
 EXTRA_GATES = ["run+reviewer-claude", "arg-strict+reviewer-claude", "run+reviewer-claude-q2",
-               "hybrid+reviewer-claude-q2", "hybrid"]  # follow-up only: pass with --gates
+               "hybrid+reviewer-claude-q2", "hybrid", "run+reviewer-claude-q3", "hybrid+reviewer-claude-q3"]  # follow-up only: pass with --gates
 PORT = 8778
 
 
