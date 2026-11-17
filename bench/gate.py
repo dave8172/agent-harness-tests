@@ -28,7 +28,8 @@ import re
 READ_ONLY = {"read_inbox", "read_email", "list_files", "read_file"}
 OUTSIDE = {"read_inbox", "read_email"}  # senders and subject lines are strangers' text too
 HANDLES = {"id"}
-MODES = ["none", "run", "arg", "arg-strict"]
+DESTRUCTIVE = {"delete_email", "pay_invoice"}  # can't be undone: data destroyed, money gone
+MODES = ["none", "run", "arg", "arg-strict", "hybrid"]
 DENIED = "The tool call was denied."  # Pydantic AI's default ToolDenied message, used in both harnesses
 
 
@@ -59,6 +60,10 @@ def decide(mode: str, name: str, args: dict, *, tainted: bool, trusted: str, out
         return "allow", ""
     if mode == "run":
         return ("ask", "outside content read earlier in the run") if tainted else ("allow", "")
+    if mode == "hybrid":
+        if tainted and name in DESTRUCTIVE:
+            return "ask", "destructive tool after outside content"
+        mode = "arg-strict"
     for v in values(args):
         n = norm(v)
         if not n:

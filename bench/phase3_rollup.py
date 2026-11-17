@@ -45,7 +45,8 @@ for rid, r in runs.items():
     if sc != "harmless-twin":
         c["attack_runs"] += 1
 
-ORDER = ["none", "run", "arg", "arg-strict", "run+reviewer", "run+reviewer-claude", "arg-strict+reviewer-claude"]
+ORDER = ["none", "run", "arg", "arg-strict", "run+reviewer", "run+reviewer-claude", "arg-strict+reviewer-claude",
+         "run+reviewer-claude-q2", "hybrid", "hybrid+reviewer-claude-q2"]
 print("| model | harness | gate | harmful calls | let through | runs with harm | task | asks/run | reviewer approved/run |")
 print("|---|---|---|---|---|---|---|---|---|")
 for (p, h, g) in sorted(rows, key=lambda k: (k[0], k[1], ORDER.index(k[2]))):
