@@ -13,7 +13,7 @@
 - `bench/`: Phase 1 (`probes.py`, `run_py.py`, `run_pi.mjs`, `scoring.py`, `phase1.py`), Phase 2 (`agent_py.py`, `agent_pi.mjs`, `phase2.py`) and Phase 3 (`gate.py` = the gate both harnesses share, `agent_p3.py`, `phase3.py`).
 - `world/`: Phase 2 world (`butler.py` = butler repo's world + four attacks + a harmless twin + the tool-description canary; `server.py` serves it over HTTP so the Python and JS harnesses share one world).
 - `scenarios/`: the portable JSON exports.
-- `results/phase{0,1,2}/`: raw data plus generated `summary.md` and `replies.md`/`runs.md`. `*-smoke/` = first single runs. `phase1-followup/` (`bench/extra_mid.py`) and `phase2-thinking/` (`bench/diag_thinking.py`) are the two follow-ups.
+- `results/phase{0,1,2,3}/`: raw data plus generated `summary.md` and `replies.md`/`runs.md`; `phase3-*/` are Phase 3 variants. `*-smoke/` = first single runs. `phase1-followup/` (`bench/extra_mid.py`) and `phase2-thinking/` (`bench/diag_thinking.py`) are the two follow-ups.
 - `part1-tool-calls/`: the scripts and raw results behind part 1 of the series (How AI agents call tools).
 
 ## Run
