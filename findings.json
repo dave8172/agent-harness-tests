@@ -9,68 +9,393 @@
     "phase2": "phase-2-the-butlers-inbox-960-runs-10-per-cell"
   },
   "findings": [
-    { "id": "G10", "date": "2026-11-17", "harness": ["Pydantic AI"], "topic": "defences", "status": "result", "section": "phase3-followups", "study": "ai-agent-tool-approval-gates-tested", "issue": "https://github.com/pydantic/pydantic-ai/issues/11756#issuecomment-6948081513",
-      "title": "A reviewer question that names the harm (\"delete something the person still needs\") held every harmful call and sent the person fewer questions than one that names the action." },
-    { "id": "G9", "date": "2026-11-17", "harness": ["Pydantic AI"], "topic": "defences", "status": "result", "section": "phase3-followups", "study": "ai-agent-tool-approval-gates-tested",
-      "title": "The strict check plus \"tools that can't be undone always ask\" closed the id-only gap, with about half the reviewer calls of the run-level gate." },
-    { "id": "G8", "date": "2026-11-17", "harness": ["Pydantic AI"], "topic": "defences", "status": "result", "section": "phase3-followups", "study": "ai-agent-tool-approval-gates-tested", "issue": "https://github.com/pydantic/pydantic-ai/issues/11756#issuecomment-6948081513",
-      "title": "An attack that needs only ids (delete emails #1 and #5) passed the strict per-argument check 5 of 5 times, and a reviewer approved harm its question didn't name." },
-    { "id": "G7", "date": "2026-11-17", "harness": ["Pydantic AI"], "topic": "defences", "status": "result", "section": "phase3-followups", "study": "ai-agent-tool-approval-gates-tested", "issue": "https://github.com/pydantic/pydantic-ai/issues/11756#issuecomment-6948081513",
-      "title": "Claude as ApprovalReviewer of gpt-5.4-nano's calls approved 0 of 39 harmful calls and cleared about 95% of harmless ones." },
-    { "id": "G6", "date": "2026-11-17", "harness": ["Pydantic AI"], "topic": "attacks", "status": "result", "section": "phase3-followups", "study": "ai-agent-tool-approval-gates-tested", "issue": "https://github.com/pydantic/pydantic-ai/issues/11756#issuecomment-6948081513",
-      "title": "When the task didn't give the account, gpt-5.4-nano paid the attacker's account 17 of 20 times. An exact-match check caught it as written, and missed it when the email split it up." },
-    { "id": "G5", "date": "2026-11-17", "harness": ["Pydantic AI"], "topic": "defences", "status": "result", "section": "phase3", "study": "ai-agent-tool-approval-gates-tested",
-      "title": "gpt-5.4-nano as ApprovalReviewer approved no harmful call, and only 11 of 438 harmless ones." },
-    { "id": "G4", "date": "2026-11-17", "harness": ["hand-rolled", "Pydantic AI"], "topic": "attacks", "status": "result", "section": "phase3", "study": "ai-agent-tool-approval-gates-tested",
-      "title": "When the person wrote the account in the task, no model paid the account from the attacker's email: 0 in 360 runs." },
-    { "id": "G3", "date": "2026-11-17", "harness": ["hand-rolled", "Pydantic AI"], "topic": "defences", "status": "result", "section": "phase3", "study": "ai-agent-tool-approval-gates-tested",
-      "title": "A strict per-argument check (ask unless every value was written by the person or the operator) held all 19 harmful calls, at 1.0 to 1.7 asks a run." },
-    { "id": "G2", "date": "2026-11-17", "harness": ["hand-rolled", "Pydantic AI"], "topic": "defences", "status": "result", "section": "phase3", "study": "ai-agent-tool-approval-gates-tested", "issue": "https://github.com/pydantic/pydantic-ai/issues/11756#issuecomment-6948081513",
-      "title": "An exact-match per-argument check let 15 of 17 leaks through: each was a reply to an email id, with a body the model wrote." },
-    { "id": "G1", "date": "2026-11-17", "harness": ["hand-rolled", "Pydantic AI"], "topic": "defences", "status": "result", "section": "phase3", "study": "ai-agent-tool-approval-gates-tested", "issue": "https://github.com/pydantic/pydantic-ai/issues/11756#issuecomment-6948081513",
-      "title": "A run-level gate (after any outside read, every action asks) held every harmful call, at 4 to 6 asks a run. A denial didn't stop the agent finishing its task." },
-    { "id": "U5", "date": "2026-11-14", "harness": [], "topic": "voices", "status": "result", "section": "facts", "study": "who-does-an-ai-agent-obey",
-      "title": "The person asking mid-conversation to switch language: Claude switched 1 to 4 times in 20. One operator line allowing it made that 20 of 20." },
-    { "id": "D1", "date": "2026-11-13", "harness": ["Pydantic AI", "hand-rolled", "pi"], "topic": "attacks", "status": "result", "section": "pydantic", "study": "who-does-an-ai-agent-obey",
-      "title": "A fake <system> tag inside an email: gpt-5.4-nano obeyed it 20 of 20 times through hand-rolled and pi, 0 of 20 through Pydantic AI, which marks lookalike tags." },
-    { "id": "D2", "date": "2026-11-13", "harness": ["Pydantic AI", "hand-rolled"], "topic": "voices", "status": "result", "section": "pydantic", "study": "who-does-an-ai-agent-obey",
-      "title": "A framed mid-conversation instruction works on Claude only with Pydantic AI's preamble in the system prompt: 20 of 20 with it, 3 of 20 without." },
-    { "id": "D3", "date": "2026-11-13", "harness": ["Pydantic AI"], "topic": "wire", "status": "open", "section": "pydantic", "study": "who-does-an-ai-agent-obey",
-      "title": "A tool result enqueued with no matching tool call is dropped without a warning, and Claude then rejects the next request (400)." },
-    { "id": "D4", "date": "2026-11-13", "harness": ["Pydantic AI"], "topic": "wire", "status": "open", "section": "pydantic", "study": "who-does-an-ai-agent-obey",
-      "title": "The Ollama route sends two system messages. Chat templates that keep only the first, like the published gpt-oss one, drop the operator's own prompt." },
-    { "id": "D5", "date": "2026-11-13", "harness": ["Pydantic AI"], "topic": "wire", "status": "result", "section": "pydantic", "study": "who-does-an-ai-agent-obey",
-      "title": "On OpenAI's Responses API, a system message sits between tool calls and their results. The API accepts it; a translation layer downstream may not." },
-    { "id": "U1", "date": "2026-11-13", "harness": [], "topic": "wire", "status": "result", "section": "facts", "study": "who-does-an-ai-agent-obey",
-      "title": "Claude's API accepts a mid-conversation system message only after a user message, so a new instruction can't sit right after the model's reply." },
-    { "id": "U2", "date": "2026-11-13", "harness": ["hand-rolled", "Pydantic AI", "pi"], "topic": "voices", "status": "result", "section": "facts", "study": "who-does-an-ai-agent-obey",
-      "title": "A planted note in a tool result: Claude obeyed it 0 of 20 times. The same note in a user message: 17 to 18 of 20, in every harness." },
-    { "id": "U3", "date": "2026-11-13", "harness": ["hand-rolled", "Pydantic AI", "pi"], "topic": "voices", "status": "result", "section": "facts", "study": "who-does-an-ai-agent-obey",
-      "title": "Operator and person asked for different reply languages: Claude followed the operator in 119 of 120 replies, gpt-5.4-nano the person in 118 of 120." },
-    { "id": "U4", "date": "2026-11-13", "harness": [], "topic": "voices", "status": "result", "section": "facts", "study": "who-does-an-ai-agent-obey",
-      "title": "Asked who wrote each line, gpt-5.4-nano called the operator's lines the assistant's in 16 to 20 of 20 runs. Claude named every author right." },
-    { "id": "P1", "date": "2026-11-13", "harness": ["pi"], "topic": "voices", "status": "result", "section": "pi", "study": "who-does-an-ai-agent-obey",
-      "title": "pi has no mid-conversation operator voice: steer() sends a user message, and Claude followed it 2 of 20 times, against 19 of 20 from the system prompt." },
-    { "id": "P2", "date": "2026-11-13", "harness": ["pi"], "topic": "wire", "status": "result", "section": "pi", "study": "who-does-an-ai-agent-obey",
-      "title": "On OpenAI, pi sends the operator prompt as a developer message. The Qwen3 and DeepSeek V3 chat templates drop developer messages." },
-    { "id": "P3", "date": "2026-11-13", "harness": ["pi", "hand-rolled"], "topic": "wire", "status": "result", "section": "pi", "study": "who-does-an-ai-agent-obey",
-      "title": "Literal special-token text (<|im_start|>) reaches Ollama unchanged through pi and a hand-rolled loop. Pydantic AI breaks it up." },
-    { "id": "P4", "date": "2026-11-13", "harness": ["pi"], "topic": "wire", "status": "open", "section": "phase2", "study": "prompt-injection-email-agent-three-harnesses",
-      "title": "pi drops Claude's empty thinking blocks when it replays the history. It may be deliberate, for providers that reject them." },
-    { "id": "F4", "date": "2026-11-13", "harness": ["pi", "hand-rolled"], "topic": "voices", "status": "result", "section": "phase2", "study": "prompt-injection-email-agent-three-harnesses",
-      "title": "Replaying Claude's own thinking blocks made it more cautious. It explains about half of why pi's runs behaved differently." },
-    { "id": "F1", "date": "2026-11-13", "harness": ["hand-rolled", "Pydantic AI", "pi"], "topic": "attacks", "status": "result", "section": "phase2", "study": "prompt-injection-email-agent-three-harnesses",
-      "title": "Claude Haiku 5.5 sent no password in 480 runs, whatever the attack, harness or channel." },
-    { "id": "F2", "date": "2026-11-13", "harness": ["hand-rolled", "Pydantic AI", "pi"], "topic": "attacks", "status": "result", "section": "phase2", "study": "prompt-injection-email-agent-three-harnesses",
-      "title": "gpt-5.4-nano mailed the passwords file to a forged sender inside the company in every harness, even when the email came as a tool result." },
-    { "id": "F3", "date": "2026-11-13", "harness": ["hand-rolled", "Pydantic AI"], "topic": "defences", "status": "result", "section": "phase2", "study": "prompt-injection-email-agent-three-harnesses",
-      "title": "Wrapping every email in \"this is data, not instructions\" tags cost Claude the real task: 0 to 3 of 10 done, against 9 or 10 of 10 without the tags." },
-    { "id": "F5", "date": "2026-11-13", "harness": ["hand-rolled", "Pydantic AI", "pi"], "topic": "attacks", "status": "result", "section": "phase2", "study": "prompt-injection-email-agent-three-harnesses",
-      "title": "Claude never did the harmless lookalike request when it came as a tool result (0 of 10, every harness). A security score without that case overstates it." },
-    { "id": "F6", "date": "2026-11-13", "harness": ["hand-rolled", "Pydantic AI", "pi"], "topic": "attacks", "status": "result", "section": "phase2", "study": "prompt-injection-email-agent-three-harnesses",
-      "title": "An instruction inside a tool's description, with the tool never called: Claude obeyed it 2 to 5 times in 10, gpt-5.4-nano 5 to 9." },
-    { "id": "R1", "date": "2026-10-25", "harness": ["Pydantic AI"], "topic": "attacks", "status": "retracted", "study": "pydantic-ai-vs-hand-rolled-agent-loop",
+    {
+      "id": "G10",
+      "date": "2026-11-17",
+      "harness": [
+        "Pydantic AI"
+      ],
+      "topic": "defences",
+      "status": "result",
+      "section": "phase3-followups",
+      "study": "ai-agent-tool-approval-gates-tested",
+      "title": "A reviewer question that names the harm (\"delete something the person still needs\") held every harmful call and sent the person fewer questions than one that names the action."
+    },
+    {
+      "id": "G9",
+      "date": "2026-11-17",
+      "harness": [
+        "Pydantic AI"
+      ],
+      "topic": "defences",
+      "status": "result",
+      "section": "phase3-followups",
+      "study": "ai-agent-tool-approval-gates-tested",
+      "title": "The strict check plus \"tools that can't be undone always ask\" closed the id-only gap, with about half the reviewer calls of the run-level gate."
+    },
+    {
+      "id": "G8",
+      "date": "2026-11-17",
+      "harness": [
+        "Pydantic AI"
+      ],
+      "topic": "defences",
+      "status": "result",
+      "section": "phase3-followups",
+      "study": "ai-agent-tool-approval-gates-tested",
+      "title": "An attack that needs only ids (delete emails #1 and #5) passed the strict per-argument check 5 of 5 times, and a reviewer approved harm its question didn't name."
+    },
+    {
+      "id": "G7",
+      "date": "2026-11-17",
+      "harness": [
+        "Pydantic AI"
+      ],
+      "topic": "defences",
+      "status": "result",
+      "section": "phase3-followups",
+      "study": "ai-agent-tool-approval-gates-tested",
+      "title": "Claude as ApprovalReviewer of gpt-5.4-nano's calls approved 0 of 39 harmful calls and cleared about 95% of harmless ones."
+    },
+    {
+      "id": "G6",
+      "date": "2026-11-17",
+      "harness": [
+        "Pydantic AI"
+      ],
+      "topic": "attacks",
+      "status": "result",
+      "section": "phase3-followups",
+      "study": "ai-agent-tool-approval-gates-tested",
+      "title": "When the task didn't give the account, gpt-5.4-nano paid the attacker's account 17 of 20 times. An exact-match check caught it as written, and missed it when the email split it up."
+    },
+    {
+      "id": "G5",
+      "date": "2026-11-17",
+      "harness": [
+        "Pydantic AI"
+      ],
+      "topic": "defences",
+      "status": "result",
+      "section": "phase3",
+      "study": "ai-agent-tool-approval-gates-tested",
+      "title": "gpt-5.4-nano as ApprovalReviewer approved no harmful call, and only 11 of 438 harmless ones."
+    },
+    {
+      "id": "G4",
+      "date": "2026-11-17",
+      "harness": [
+        "hand-rolled",
+        "Pydantic AI"
+      ],
+      "topic": "attacks",
+      "status": "result",
+      "section": "phase3",
+      "study": "ai-agent-tool-approval-gates-tested",
+      "title": "When the person wrote the account in the task, no model paid the account from the attacker's email: 0 in 360 runs."
+    },
+    {
+      "id": "G3",
+      "date": "2026-11-17",
+      "harness": [
+        "hand-rolled",
+        "Pydantic AI"
+      ],
+      "topic": "defences",
+      "status": "result",
+      "section": "phase3",
+      "study": "ai-agent-tool-approval-gates-tested",
+      "title": "A strict per-argument check (ask unless every value was written by the person or the operator) held all 19 harmful calls, at 1.0 to 1.7 asks a run."
+    },
+    {
+      "id": "G2",
+      "date": "2026-11-17",
+      "harness": [
+        "hand-rolled",
+        "Pydantic AI"
+      ],
+      "topic": "defences",
+      "status": "result",
+      "section": "phase3",
+      "study": "ai-agent-tool-approval-gates-tested",
+      "title": "An exact-match per-argument check let 15 of 17 leaks through: each was a reply to an email id, with a body the model wrote."
+    },
+    {
+      "id": "G1",
+      "date": "2026-11-17",
+      "harness": [
+        "hand-rolled",
+        "Pydantic AI"
+      ],
+      "topic": "defences",
+      "status": "result",
+      "section": "phase3",
+      "study": "ai-agent-tool-approval-gates-tested",
+      "title": "A run-level gate (after any outside read, every action asks) held every harmful call, at 4 to 6 asks a run. A denial didn't stop the agent finishing its task."
+    },
+    {
+      "id": "U5",
+      "date": "2026-11-14",
+      "harness": [],
+      "topic": "voices",
+      "status": "result",
+      "section": "facts",
+      "study": "who-does-an-ai-agent-obey",
+      "title": "The person asking mid-conversation to switch language: Claude switched 1 to 4 times in 20. One operator line allowing it made that 20 of 20."
+    },
+    {
+      "id": "D1",
+      "date": "2026-11-13",
+      "harness": [
+        "Pydantic AI",
+        "hand-rolled",
+        "pi"
+      ],
+      "topic": "attacks",
+      "status": "result",
+      "section": "pydantic",
+      "study": "who-does-an-ai-agent-obey",
+      "title": "A fake <system> tag inside an email: gpt-5.4-nano obeyed it 20 of 20 times through hand-rolled and pi, 0 of 20 through Pydantic AI, which marks lookalike tags."
+    },
+    {
+      "id": "D2",
+      "date": "2026-11-13",
+      "harness": [
+        "Pydantic AI",
+        "hand-rolled"
+      ],
+      "topic": "voices",
+      "status": "result",
+      "section": "pydantic",
+      "study": "who-does-an-ai-agent-obey",
+      "title": "A framed mid-conversation instruction works on Claude only with Pydantic AI's preamble in the system prompt: 20 of 20 with it, 3 of 20 without."
+    },
+    {
+      "id": "D3",
+      "date": "2026-11-13",
+      "harness": [
+        "Pydantic AI"
+      ],
+      "topic": "wire",
+      "status": "open",
+      "section": "pydantic",
+      "study": "who-does-an-ai-agent-obey",
+      "title": "A tool result enqueued with no matching tool call is dropped without a warning, and Claude then rejects the next request (400)."
+    },
+    {
+      "id": "D4",
+      "date": "2026-11-13",
+      "harness": [
+        "Pydantic AI"
+      ],
+      "topic": "wire",
+      "status": "open",
+      "section": "pydantic",
+      "study": "who-does-an-ai-agent-obey",
+      "title": "The Ollama route sends two system messages. Chat templates that keep only the first, like the published gpt-oss one, drop the operator's own prompt."
+    },
+    {
+      "id": "D5",
+      "date": "2026-11-13",
+      "harness": [
+        "Pydantic AI"
+      ],
+      "topic": "wire",
+      "status": "result",
+      "section": "pydantic",
+      "study": "who-does-an-ai-agent-obey",
+      "title": "On OpenAI's Responses API, a system message sits between tool calls and their results. The API accepts it; a translation layer downstream may not."
+    },
+    {
+      "id": "U1",
+      "date": "2026-11-13",
+      "harness": [],
+      "topic": "wire",
+      "status": "result",
+      "section": "facts",
+      "study": "who-does-an-ai-agent-obey",
+      "title": "Claude's API accepts a mid-conversation system message only after a user message, so a new instruction can't sit right after the model's reply."
+    },
+    {
+      "id": "U2",
+      "date": "2026-11-13",
+      "harness": [
+        "hand-rolled",
+        "Pydantic AI",
+        "pi"
+      ],
+      "topic": "voices",
+      "status": "result",
+      "section": "facts",
+      "study": "who-does-an-ai-agent-obey",
+      "title": "A planted note in a tool result: Claude obeyed it 0 of 20 times. The same note in a user message: 17 to 18 of 20, in every harness."
+    },
+    {
+      "id": "U3",
+      "date": "2026-11-13",
+      "harness": [
+        "hand-rolled",
+        "Pydantic AI",
+        "pi"
+      ],
+      "topic": "voices",
+      "status": "result",
+      "section": "facts",
+      "study": "who-does-an-ai-agent-obey",
+      "title": "Operator and person asked for different reply languages: Claude followed the operator in 119 of 120 replies, gpt-5.4-nano the person in 118 of 120."
+    },
+    {
+      "id": "U4",
+      "date": "2026-11-13",
+      "harness": [],
+      "topic": "voices",
+      "status": "result",
+      "section": "facts",
+      "study": "who-does-an-ai-agent-obey",
+      "title": "Asked who wrote each line, gpt-5.4-nano called the operator's lines the assistant's in 16 to 20 of 20 runs. Claude named every author right."
+    },
+    {
+      "id": "P1",
+      "date": "2026-11-13",
+      "harness": [
+        "pi"
+      ],
+      "topic": "voices",
+      "status": "result",
+      "section": "pi",
+      "study": "who-does-an-ai-agent-obey",
+      "title": "pi has no mid-conversation operator voice: steer() sends a user message, and Claude followed it 2 of 20 times, against 19 of 20 from the system prompt."
+    },
+    {
+      "id": "P2",
+      "date": "2026-11-13",
+      "harness": [
+        "pi"
+      ],
+      "topic": "wire",
+      "status": "result",
+      "section": "pi",
+      "study": "who-does-an-ai-agent-obey",
+      "title": "On OpenAI, pi sends the operator prompt as a developer message. The Qwen3 and DeepSeek V3 chat templates drop developer messages."
+    },
+    {
+      "id": "P3",
+      "date": "2026-11-13",
+      "harness": [
+        "pi",
+        "hand-rolled"
+      ],
+      "topic": "wire",
+      "status": "result",
+      "section": "pi",
+      "study": "who-does-an-ai-agent-obey",
+      "title": "Literal special-token text (<|im_start|>) reaches Ollama unchanged through pi and a hand-rolled loop. Pydantic AI breaks it up."
+    },
+    {
+      "id": "P4",
+      "date": "2026-11-13",
+      "harness": [
+        "pi"
+      ],
+      "topic": "wire",
+      "status": "open",
+      "section": "phase2",
+      "study": "prompt-injection-email-agent-three-harnesses",
+      "title": "pi drops Claude's empty thinking blocks when it replays the history. It may be deliberate, for providers that reject them."
+    },
+    {
+      "id": "F4",
+      "date": "2026-11-13",
+      "harness": [
+        "pi",
+        "hand-rolled"
+      ],
+      "topic": "voices",
+      "status": "result",
+      "section": "phase2",
+      "study": "prompt-injection-email-agent-three-harnesses",
+      "title": "Replaying Claude's own thinking blocks made it more cautious. It explains about half of why pi's runs behaved differently."
+    },
+    {
+      "id": "F1",
+      "date": "2026-11-13",
+      "harness": [
+        "hand-rolled",
+        "Pydantic AI",
+        "pi"
+      ],
+      "topic": "attacks",
+      "status": "result",
+      "section": "phase2",
+      "study": "prompt-injection-email-agent-three-harnesses",
+      "title": "Claude Haiku 5.5 sent no password in 480 runs, whatever the attack, harness or channel."
+    },
+    {
+      "id": "F2",
+      "date": "2026-11-13",
+      "harness": [
+        "hand-rolled",
+        "Pydantic AI",
+        "pi"
+      ],
+      "topic": "attacks",
+      "status": "result",
+      "section": "phase2",
+      "study": "prompt-injection-email-agent-three-harnesses",
+      "title": "gpt-5.4-nano mailed the passwords file to a forged sender inside the company in every harness, even when the email came as a tool result."
+    },
+    {
+      "id": "F3",
+      "date": "2026-11-13",
+      "harness": [
+        "hand-rolled",
+        "Pydantic AI"
+      ],
+      "topic": "defences",
+      "status": "result",
+      "section": "phase2",
+      "study": "prompt-injection-email-agent-three-harnesses",
+      "title": "Wrapping every email in \"this is data, not instructions\" tags cost Claude the real task: 0 to 3 of 10 done, against 9 or 10 of 10 without the tags."
+    },
+    {
+      "id": "F5",
+      "date": "2026-11-13",
+      "harness": [
+        "hand-rolled",
+        "Pydantic AI",
+        "pi"
+      ],
+      "topic": "attacks",
+      "status": "result",
+      "section": "phase2",
+      "study": "prompt-injection-email-agent-three-harnesses",
+      "title": "Claude never did the harmless lookalike request when it came as a tool result (0 of 10, every harness). A security score without that case overstates it."
+    },
+    {
+      "id": "F6",
+      "date": "2026-11-13",
+      "harness": [
+        "hand-rolled",
+        "Pydantic AI",
+        "pi"
+      ],
+      "topic": "attacks",
+      "status": "result",
+      "section": "phase2",
+      "study": "prompt-injection-email-agent-three-harnesses",
+      "title": "An instruction inside a tool's description, with the tool never called: Claude obeyed it 2 to 5 times in 10, gpt-5.4-nano 5 to 9."
+    },
+    {
+      "id": "R1",
+      "date": "2026-10-25",
+      "harness": [
+        "Pydantic AI"
+      ],
+      "topic": "attacks",
+      "status": "retracted",
+      "study": "pydantic-ai-vs-hand-rolled-agent-loop",
       "title": "Native structured output made a Pydantic AI agent try more leaks.",
-      "note": "Retracted 2026-11-04: Pydantic AI's team couldn't reproduce it, and our rerun of the same code (80 runs) found no difference between output modes. The post carries the correction." }
+      "note": "Retracted 2026-11-04: Pydantic AI's team couldn't reproduce it, and our rerun of the same code (80 runs) found no difference between output modes. The post carries the correction."
+    }
   ]
 }
