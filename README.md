@@ -1,8 +1,8 @@
-# modelvoicebench
+# agent-harness-tests
 
-Every message an AI agent sends a model carries a voice: the operator (system), the person (user), a tool's output, the model's own earlier turns. Models are trained to trust these voices differently. **The harness**, the code around the model, picks the voice for everything it sends. This bench measures two things. Where does each harness actually put each voice? And how does a model behave when a harness puts something in the wrong one?
+Independent tests of AI agent harnesses, the code around the model. Where does each harness put each voice (the operator's system prompt, the person, a tool's output, the model's own earlier turns)? Which prompt-injection attacks get through it, and which defences hold, at what cost? Harnesses so far: a hand-rolled loop on the raw provider SDKs (the control: every voice in the channel built for it), [Pydantic AI](https://ai.pydantic.dev) 2.68 (Phase 3: 2.69 with pydantic-ai-harness 0.69), and [pi](https://github.com/badlogic/pi-mono) 0.73 (`pi-agent-core`). Models: Claude Haiku 5.5 and gpt-5.4-nano, with the same settings in every harness. A local open model via Ollama comes next.
 
-Harnesses: a hand-rolled loop on the raw provider SDKs (the control: every voice in the channel built for it), [Pydantic AI](https://ai.pydantic.dev) 2.68 (Phase 3: 2.69 with pydantic-ai-harness 0.69), and [pi](https://github.com/badlogic/pi-mono) 0.73 (`pi-agent-core`). Models: Claude Haiku 5.5 and gpt-5.4-nano, with the same settings in every harness. A local open model via Ollama comes next.
+Every finding, one line each with its status: [`findings.json`](findings.json). The numbers behind them: [`FINDINGS.md`](FINDINGS.md). Read them as pages: [quirkyagents.com/wizard/research/](https://quirkyagents.com/wizard/research/).
 
 ## Phases
 
